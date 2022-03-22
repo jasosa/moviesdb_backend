@@ -4,6 +4,7 @@ import (
 	"backend/models"
 	"encoding/json"
 	"errors"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -130,6 +131,8 @@ func (app *application) deleteMovie(w http.ResponseWriter, r *http.Request) {
 func (app *application) editMovie(w http.ResponseWriter, r *http.Request) {
 
 	var payload MoviePayload
+
+	log.Println("Editing movie")
 
 	err := json.NewDecoder(r.Body).Decode(&payload)
 	if err != nil {

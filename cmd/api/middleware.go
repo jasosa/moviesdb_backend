@@ -23,6 +23,7 @@ func (app *application) checkToken(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("Vary", "Authorization")
 
+		log.Println("Checkin token")
 		authHeader := r.Header.Get("Authorization")
 		if authHeader == "" {
 			// could set anonymous user
@@ -60,6 +61,8 @@ func (app *application) checkToken(next http.Handler) http.Handler {
 		}
 
 		log.Println("Valid User:", userID)
+
+		next.ServeHTTP(w, r)
 	})
 }
 
