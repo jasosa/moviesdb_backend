@@ -22,7 +22,6 @@ func (app *application) enableCORS(next http.Handler) http.Handler {
 func (app *application) checkToken(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("Vary", "Authorization")
-
 		log.Println("Checkin token")
 		authHeader := r.Header.Get("Authorization")
 		if authHeader == "" {
@@ -30,6 +29,7 @@ func (app *application) checkToken(next http.Handler) http.Handler {
 		}
 
 		headerParts := strings.Split(authHeader, " ")
+
 		if len(headerParts) != 2 {
 			app.errorJSON(w, errors.New("invalid auth header"))
 			return
@@ -61,8 +61,7 @@ func (app *application) checkToken(next http.Handler) http.Handler {
 		}
 
 		log.Println("Valid User:", userID)
-
-		next.ServeHTTP(w, r)
+		next.ServeHTTP(w, r.WithContext(r.Context()))
 	})
 }
 
