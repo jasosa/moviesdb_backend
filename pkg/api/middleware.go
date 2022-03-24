@@ -44,19 +44,19 @@ func CheckToken(next http.Handler) http.Handler {
 
 		claims, err := jwt.HMACCheck([]byte(token), []byte(""))
 		if err != nil {
-			ErrorJSON(w, errors.New("unauthorized - Failed HCMA Check"))
+			ErrorJSON(w, errors.New("unauthorized - Failed HCMA Check"), http.StatusForbidden)
 			return
 		}
 
 		err = validateClaims(claims)
 		if err != nil {
-			ErrorJSON(w, err)
+			ErrorJSON(w, err, http.StatusForbidden)
 			return
 		}
 
 		userID, err := strconv.ParseInt(claims.Subject, 10, 64)
 		if err != nil {
-			ErrorJSON(w, errors.New("unauthorized"))
+			ErrorJSON(w, errors.New("unauthorized"), http.StatusForbidden)
 			return
 		}
 

@@ -40,7 +40,7 @@ func GetOneMovie(w http.ResponseWriter, r *http.Request) {
 
 	movie, err := App.Models.DB.Get(id)
 	if err != nil {
-		ErrorJSON(w, err)
+		ErrorJSON(w, err, http.StatusNotFound)
 		return
 	}
 
@@ -69,7 +69,7 @@ func GetAllMovies(w http.ResponseWriter, r *http.Request) {
 func GetAllGenres(w http.ResponseWriter, r *http.Request) {
 	genres, err := App.Models.DB.GenresAll()
 	if err != nil {
-		ErrorJSON(w, err)
+		ErrorJSON(w, err, http.StatusNotFound)
 		return
 	}
 
@@ -114,7 +114,7 @@ func DeleteMovie(w http.ResponseWriter, r *http.Request) {
 
 	err = App.Models.DB.DeleteMovie(id)
 	if err != nil {
-		ErrorJSON(w, err)
+		ErrorJSON(w, err, http.StatusNotFound)
 		return
 	}
 
@@ -148,14 +148,14 @@ func EditMovie(w http.ResponseWriter, r *http.Request) {
 	if movie.ID == 0 {
 		err = App.Models.DB.InsertMovie(movie)
 		if err != nil {
-			ErrorJSON(w, err)
+			ErrorJSON(w, err, http.StatusConflict)
 			return
 		}
 	} else {
 		movie.UpdatedAt = time.Now()
 		err = App.Models.DB.UpdateMovie(movie)
 		if err != nil {
-			ErrorJSON(w, err)
+			ErrorJSON(w, err, http.StatusConflict)
 			return
 		}
 	}
