@@ -22,6 +22,7 @@ func Routes() http.Handler {
 
 	router.HandlerFunc(http.MethodGet, "/status", StatusHandler)
 	router.HandlerFunc(http.MethodPost, "/v1/admin/signin", SignIn)
+	router.HandlerFunc(http.MethodPost, "/v1/graphql/list", MoviesGraphQL)
 	router.HandlerFunc(http.MethodGet, "/v1/movie/:id", GetOneMovie)
 	router.HandlerFunc(http.MethodGet, "/v1/movies", GetAllMovies)
 	router.HandlerFunc(http.MethodGet, "/v1/movies/:genre_id", GetAllMoviesByGenre)
